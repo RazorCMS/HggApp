@@ -22,10 +22,14 @@ void NormalizeHist(TH1D *hist) {
 }
 
 
-void PlotMggShapeVsRsq() {
+void PlotMggShapeVsRsq(bool useMC = false) {
 
-  //TFile *fileData = new TFile("/afs/cern.ch/user/s/sixie/eos/cms/store/group/phys_susy/razor/run1/HggRazor/AlexRaidDisk/DoublePhoton_22Jan2013_Run2012ABCD_v9.root","READ");
-  TFile *fileData = new TFile("/afs/cern.ch/user/s/sixie/eos/cms/store/group/phys_susy/razor/run1/HggRazor/AlexRaidDisk/DiPhotonJetsBox_M60_8TeV-sherpa__Summer12_DR53X-PU_S10_START53_V7C-v1_v9__WEIGHTED.root","READ");
+  TFile *fileData = 0;
+  if (!useMC) {
+    fileData = new TFile("/afs/cern.ch/user/s/sixie/eos/cms/store/group/phys_susy/razor/run1/HggRazor/AlexRaidDisk/DoublePhoton_22Jan2013_Run2012ABCD_v9.root","READ");
+  } else {
+    fileData = new TFile("/afs/cern.ch/user/s/sixie/eos/cms/store/group/phys_susy/razor/run1/HggRazor/AlexRaidDisk/DiPhotonJetsBox_M60_8TeV-sherpa__Summer12_DR53X-PU_S10_START53_V7C-v1_v9__WEIGHTED.root","READ");
+  }
   TTree *tree = (TTree*)fileData->Get("SusyHggTree");
   
 
@@ -34,23 +38,26 @@ void PlotMggShapeVsRsq() {
   TH1D *MGG_MR400ToInf_Rsq0p03To0p05 = new TH1D("MGG_MR400ToInf_Rsq0p03To0p05",";m_{#gamma#gamma} (GeV); Fraction ", 30,100,400);
   TH1D *MGG_MR400ToInf_Rsq0p05ToInf = new TH1D("MGG_MR400ToInf_Rsq0p05ToInf",";m_{#gamma#gamma} (GeV); Fraction ", 30,100,400);
 
- tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p00To0p015","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && (!pho1_pass_iso || !pho2_pass_iso) && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.0 && t1Rsq<0.015 ","");
+  if (!useMC) {
+    tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p00To0p015","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && (!pho1_pass_iso || !pho2_pass_iso) && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.0 && t1Rsq<0.015 ","");
+    tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p015To0p03","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && (!pho1_pass_iso || !pho2_pass_iso) && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.015 && t1Rsq<0.03 ","");
+    tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p03To0p05","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && (!pho1_pass_iso || !pho2_pass_iso) && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.03 && t1Rsq<0.045 ","");
+    tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p05ToInf","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && (!pho1_pass_iso || !pho2_pass_iso) && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.045 ","");
+  } else {
+    tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p00To0p015","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.0 && t1Rsq<0.015 ","");
+    
+    tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p015To0p03","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.015 && t1Rsq<0.03 ","");
+    
+    tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p03To0p05","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.03 && t1Rsq<0.045 ","");
+    
+    tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p05ToInf","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id  && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.045 ","");
+  }
 
- tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p015To0p03","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && (!pho1_pass_iso || !pho2_pass_iso) && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.015 && t1Rsq<0.03 ","");
 
- tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p03To0p05","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && (!pho1_pass_iso || !pho2_pass_iso) && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.03 && t1Rsq<0.045 ","");
-
- tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p05ToInf","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && (!pho1_pass_iso || !pho2_pass_iso) && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.045 ","");
-
- cout << "here1\n";
  NormalizeHist(MGG_MR400ToInf_Rsq0p00To0p015);
- cout << "here2\n";
  NormalizeHist(MGG_MR400ToInf_Rsq0p015To0p03);
- cout << "here3\n";
  NormalizeHist(MGG_MR400ToInf_Rsq0p03To0p05);
- cout << "here4\n";
  NormalizeHist(MGG_MR400ToInf_Rsq0p05ToInf);
- cout << "here5\n";
 
 
  //Draw Plots
@@ -110,41 +117,49 @@ void PlotMggShapeVsRsq() {
  tex->DrawLatex(0.6, 0.92, "#sqrt{s} = 8 TeV, L = 19.8 fb^{-1}");
  tex->Draw();
 
- cv->SaveAs("HggMassShape_VsRsq.gif");
+ if (!useMC) {
+   cv->SaveAs("HggMassShape_VsRsq_Data.gif");
+ } else {
+   cv->SaveAs("HggMassShape_VsRsq_MC.gif");
+ }
 
  
 
 }
 
 
-void PlotMggShapeVsMR() {
+void PlotMggShapeVsMR(bool useMC = false) {
 
-  // TFile *fileData = new TFile("/afs/cern.ch/user/s/sixie/eos/cms/store/group/phys_susy/razor/run1/HggRazor/AlexRaidDisk/DoublePhoton_22Jan2013_Run2012ABCD_v9.root","READ");
-  TFile *fileData = new TFile("/afs/cern.ch/user/s/sixie/eos/cms/store/group/phys_susy/razor/run1/HggRazor/AlexRaidDisk/DiPhotonJetsBox_M60_8TeV-sherpa__Summer12_DR53X-PU_S10_START53_V7C-v1_v9__WEIGHTED.root","READ");
+  TFile *fileData=0;
+  if (!useMC) {
+    fileData = new TFile("/afs/cern.ch/user/s/sixie/eos/cms/store/group/phys_susy/razor/run1/HggRazor/AlexRaidDisk/DoublePhoton_22Jan2013_Run2012ABCD_v9.root","READ");
+  } else {
+    fileData = new TFile("/afs/cern.ch/user/s/sixie/eos/cms/store/group/phys_susy/razor/run1/HggRazor/AlexRaidDisk/DiPhotonJetsBox_M60_8TeV-sherpa__Summer12_DR53X-PU_S10_START53_V7C-v1_v9__WEIGHTED.root","READ");
+  }
  
-
- TTree *tree = (TTree*)fileData->Get("SusyHggTree");
+  TTree *tree = (TTree*)fileData->Get("SusyHggTree");
   
-
   TH1D *MGG_MR150To200_Rsq0p05ToInf = new TH1D("MGG_MR150To200_Rsq0p05ToInf",";m_{#gamma#gamma} (GeV); Fraction ", 30,100,400);
   TH1D *MGG_MR200To300_Rsq0p05ToInf = new TH1D("MGG_MR200To300_Rsq0p05ToInf",";m_{#gamma#gamma} (GeV); Fraction ", 30,100,400);
   TH1D *MGG_MR300To400_Rsq0p05ToInf = new TH1D("MGG_MR300To400_Rsq0p05ToInf",";m_{#gamma#gamma} (GeV); Fraction ", 30,100,400);
   TH1D *MGG_MR400ToInf_Rsq0p05ToInf = new TH1D("MGG_MR400ToInf_Rsq0p05ToInf",";m_{#gamma#gamma} (GeV); Fraction ", 30,100,400);
 
- tree->Draw("mgg>>MGG_MR150To200_Rsq0p05ToInf","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && (!pho1_pass_iso || !pho2_pass_iso) && mgg>100&&mgg<400 && MR > 150 && MR < 200 && t1Rsq > 0.05","");
-
- tree->Draw("mgg>>MGG_MR200To300_Rsq0p05ToInf","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && (!pho1_pass_iso || !pho2_pass_iso) && mgg>100&&mgg<400 && MR > 200 && MR < 300 && t1Rsq > 0.05","");
- tree->Draw("mgg>>MGG_MR300To400_Rsq0p05ToInf","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && (!pho1_pass_iso || !pho2_pass_iso) && mgg>100&&mgg<400 && MR > 300 && MR < 400 && t1Rsq > 0.05","");
- tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p05ToInf","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && (!pho1_pass_iso || !pho2_pass_iso) && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.05","");
-
-
+  if (!useMC) {
+     tree->Draw("mgg>>MGG_MR150To200_Rsq0p05ToInf","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && (!pho1_pass_iso || !pho2_pass_iso) && mgg>100&&mgg<400 && MR > 150 && MR < 200 && t1Rsq > 0.05","");
+     tree->Draw("mgg>>MGG_MR200To300_Rsq0p05ToInf","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && (!pho1_pass_iso || !pho2_pass_iso) && mgg>100&&mgg<400 && MR > 200 && MR < 300 && t1Rsq > 0.05","");
+     tree->Draw("mgg>>MGG_MR300To400_Rsq0p05ToInf","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && (!pho1_pass_iso || !pho2_pass_iso) && mgg>100&&mgg<400 && MR > 300 && MR < 400 && t1Rsq > 0.05","");
+     tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p05ToInf","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && (!pho1_pass_iso || !pho2_pass_iso) && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.05","");
+  } else {
+    tree->Draw("mgg>>MGG_MR150To200_Rsq0p05ToInf","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 150 && MR < 200 && t1Rsq > 0.05","");
+    tree->Draw("mgg>>MGG_MR200To300_Rsq0p05ToInf","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 200 && MR < 300 && t1Rsq > 0.05","");
+    tree->Draw("mgg>>MGG_MR300To400_Rsq0p05ToInf","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 300 && MR < 400 && t1Rsq > 0.05","");
+    tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p05ToInf","abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && ptgg<110&&pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.05","");
+  }
 
  NormalizeHist(MGG_MR150To200_Rsq0p05ToInf);
  NormalizeHist(MGG_MR200To300_Rsq0p05ToInf);
  NormalizeHist(MGG_MR300To400_Rsq0p05ToInf);
  NormalizeHist(MGG_MR400ToInf_Rsq0p05ToInf);
-
-
 
  //Draw Plots
  TCanvas *cv = 0;
@@ -169,8 +184,6 @@ void PlotMggShapeVsMR() {
  MGG_MR150To200_Rsq0p05ToInf->SetMarkerSize(1.3); 
  MGG_MR150To200_Rsq0p05ToInf->SetMarkerColor(kBlack); 
  
- MGG_MR400ToInf_Rsq0p05ToInf->SetFillColor(kGreen+2);
- MGG_MR400ToInf_Rsq0p05ToInf->SetFillStyle(3002);
 
  MGG_MR200To300_Rsq0p05ToInf->SetLineWidth(3); 
  MGG_MR300To400_Rsq0p05ToInf->SetLineWidth(2); 
@@ -179,12 +192,12 @@ void PlotMggShapeVsMR() {
  MGG_MR300To400_Rsq0p05ToInf->SetLineColor(kBlue);
  MGG_MR400ToInf_Rsq0p05ToInf->SetLineColor(kGreen+2);
  MGG_MR200To300_Rsq0p05ToInf->Draw("histsame");
- MGG_MR300To400_Rsq0p05ToInf->Draw("histsame");
- TH1D* MGG_MR300To400_Rsq0p05ToInf_Clone = (TH1D*)MGG_MR300To400_Rsq0p05ToInf->Clone();
- MGG_MR300To400_Rsq0p05ToInf_Clone->SetFillColor(kBlue);
- MGG_MR300To400_Rsq0p05ToInf_Clone->SetFillStyle(3002);
- MGG_MR300To400_Rsq0p05ToInf_Clone->Draw("e1same");
- MGG_MR400ToInf_Rsq0p05ToInf->Draw("e3same");
+ MGG_MR300To400_Rsq0p05ToInf->Draw("e1same");
+ TH1D* MGG_MR400ToInf_Rsq0p05ToInf_Clone = (TH1D*)MGG_MR400ToInf_Rsq0p05ToInf->Clone();
+ MGG_MR400ToInf_Rsq0p05ToInf_Clone->SetFillColor(kGreen+2);
+ MGG_MR400ToInf_Rsq0p05ToInf_Clone->SetFillStyle(3002);
+ MGG_MR400ToInf_Rsq0p05ToInf->Draw("histsame");
+ MGG_MR400ToInf_Rsq0p05ToInf_Clone->Draw("e3same");
 
  legend = new TLegend(0.40,0.50,0.90,0.84);
  legend->SetTextSize(0.04);
@@ -205,7 +218,11 @@ void PlotMggShapeVsMR() {
  tex->DrawLatex(0.6, 0.92, "#sqrt{s} = 8 TeV, L = 19.8 fb^{-1}");
  tex->Draw();
 
- cv->SaveAs("HggMassShape_VsMR.gif");
+ if (!useMC) {
+   cv->SaveAs("HggMassShape_VsMR_Data.gif");
+ } else {
+   cv->SaveAs("HggMassShape_VsMR_MC.gif");
+ }
 
  
 
@@ -217,8 +234,9 @@ void PlotMggShapeVsMR() {
 
 void MggShapeStudy() {
 
-  PlotMggShapeVsRsq();
-  PlotMggShapeVsMR();
-
+  PlotMggShapeVsRsq(false);
+  PlotMggShapeVsMR(false);
+  PlotMggShapeVsRsq(true);
+  PlotMggShapeVsMR(true);
 
 }
