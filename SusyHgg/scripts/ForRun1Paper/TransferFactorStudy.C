@@ -188,18 +188,33 @@ void MakeTFTable(string category = "highres") {
   gr->GetYaxis()->SetTitleOffset(1.3);
 
   if (category == "highpt")  gr->GetYaxis()->SetRangeUser(0.0, 0.5);
-  if (category == "hbb")     gr->GetYaxis()->SetRangeUser(0.15, 0.25);
-  if (category == "zbb")     gr->GetYaxis()->SetRangeUser(0.15, 0.25);
-  if (category == "highres") gr->GetYaxis()->SetRangeUser(0.0, 0.25);
+  if (category == "hbb")     gr->GetYaxis()->SetRangeUser(0.16, 0.30);
+  if (category == "zbb")     gr->GetYaxis()->SetRangeUser(0.16, 0.30);
+  if (category == "highres") gr->GetYaxis()->SetRangeUser(0.0, 0.35);
   if (category == "lowres")  gr->GetYaxis()->SetRangeUser(0.0, 1.0);
 
+  double binx[NBins+1];
+  for (int i=0; i<NBins+1; ++i)  binx[i] = i-0.5;
+  gr->GetXaxis()->Set(NBins,  binx);
+  for (int i=0; i<NBins; ++i) gr->GetXaxis()->SetBinLabel(i+1, Form("%d",i+1));
+  gr->GetXaxis()->SetLabelSize(0.07);
+  gr->GetXaxis()->SetTitleSize(0.05);
+  gr->GetXaxis()->SetTitleOffset(0.8); 
   
   TBox *box = new TBox(gr->GetXaxis()->GetXmin(),tf_inclusive - tf_inclusiveErr, gr->GetXaxis()->GetXmax(), tf_inclusive + tf_inclusiveErr);
   box->SetFillColor(kBlue);
   box->SetFillStyle(3001);
   box->Draw();
 
+ TLegend *legend = new TLegend(0.30,0.70,0.80,0.84);
+ legend->SetTextSize(0.04);
+ legend->SetBorderSize(0);
+ legend->SetFillStyle(0);
+ legend->AddEntry(box , "Transfer Factor from Inclusive Region" , "F");
+ legend->Draw();
+
   cv->SaveAs( ("TransferFactor_"+category+".png").c_str());
+  cv->SaveAs( ("TransferFactor_"+category+".pdf").c_str());
 
 }
 

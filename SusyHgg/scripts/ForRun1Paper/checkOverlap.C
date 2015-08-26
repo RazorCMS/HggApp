@@ -1,26 +1,26 @@
- // 2859  outfileAlternate_HighPt.txt
- // 2857  outfileStandard_HighPt.txt
- // 2852  outfileVectSumPt_HighPt.txt
+ 2859  outfileAlternate_HighPt.txt
+ 2857  outfileStandard_HighPt.txt
+ 2852  outfileVectSumPt_HighPt.txt
 
- // 7878   outfileAlternate_HighRes.txt
- // 13968  outfileStandard_HighRes.txt
- // 13848  outfileVectSumPt_HighRes.txt
+ 7878   outfileAlternate_HighRes.txt
+ 13968  outfileStandard_HighRes.txt
+ 13848  outfileVectSumPt_HighRes.txt
 
- // 27713  outfileAlternate_LowRes.txt
- // 17754  outfileStandard_LowRes.txt
- // 17734  outfileVectSumPt_LowRes.txt
+ 27713  outfileAlternate_LowRes.txt
+ 17754  outfileStandard_LowRes.txt
+ 17734  outfileVectSumPt_LowRes.txt
 
 
- // Standard Vs Alternate Overlap: 
- // Alternate HighRes Efficiency is much lower than Standard analysis: 22% vs 44%
- // HighPt 99.93% overlap
- // HighRes 44%
- // LowRes 60%
+ Standard Vs Alternate Overlap: 
+ Alternate HighRes Efficiency is much lower than Standard analysis: 22% vs 44%
+ HighPt 99.93% overlap
+ HighRes 44%
+ LowRes 60%
 
- // Standard Vs VectSumPt
- // HighPt  97.4%
- // HighRes 98.3%
- // LowRes  98.8%
+ Standard Vs VectSumPt
+ HighPt  97.4%
+ HighRes 98.3%
+ LowRes  98.8%
 
 
 

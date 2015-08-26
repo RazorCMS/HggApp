@@ -40,19 +40,19 @@ void PlotMggShapeVsRsq(bool useMC = false, string category = "highres") {
   TH1D *MGG_MR400ToInf_Rsq0p05ToInf = new TH1D("MGG_MR400ToInf_Rsq0p05ToInf",";m_{#gamma#gamma} (GeV); Fraction ", 30,100,400);
 
   string categoryCutString = "";
-  if (category == "highpt") categoryCutString = " && ptgg >= 110 ";
-  else if (category == "highres") categoryCutString = " && ptgg < 110 && pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 ";
-  else if (category == "lowres") categoryCutString = " && ptgg < 110 && !(pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015) ";
+  if (category == "highpt") categoryCutString = " && ptgg >= 110";
+  else if (category == "highres") categoryCutString = "  abs(mbb-125)>=25 && abs(mbb-91.2)>=25 && ptgg < 110 && pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 ";
+  else if (category == "lowres") categoryCutString = " abs(mbb-125)>=25 && abs(mbb-91.2)>=25 && ptgg < 110 && !(pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015) ";
 
   string controlRegionCutString = "";
   if (useMC) controlRegionCutString = "";
   else controlRegionCutString = "&& (!pho1_pass_iso || !pho2_pass_iso) ";
 
-  tree->Draw("mgg>>MGG_MR150ToInf_Rsq0p00ToInf", ("abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 150 && t1Rsq > 0.0 " + categoryCutString + controlRegionCutString).c_str(),"");
-  tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p00To0p015",("abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.0 && t1Rsq<0.015 " + categoryCutString + controlRegionCutString).c_str(),"");
-  tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p015To0p03",("abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.015 && t1Rsq<0.03 " + categoryCutString + controlRegionCutString).c_str(),"");
-  tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p03To0p05",("abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.03 && t1Rsq<0.045 " + categoryCutString + controlRegionCutString).c_str(),"");
-  tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p05ToInf",("abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.045 " + categoryCutString + controlRegionCutString).c_str(),"");
+  tree->Draw("mgg>>MGG_MR150ToInf_Rsq0p00ToInf", ("ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 150 && t1Rsq > 0.0 " + categoryCutString + controlRegionCutString).c_str(),"");
+  tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p00To0p015",("ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.0 && t1Rsq<0.015 " + categoryCutString + controlRegionCutString).c_str(),"");
+  tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p015To0p03",("ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.015 && t1Rsq<0.03 " + categoryCutString + controlRegionCutString).c_str(),"");
+  tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p03To0p05",("ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.03 && t1Rsq<0.045 " + categoryCutString + controlRegionCutString).c_str(),"");
+  tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p05ToInf",("ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.045 " + categoryCutString + controlRegionCutString).c_str(),"");
 
 
  NormalizeHist(MGG_MR150ToInf_Rsq0p00ToInf);
@@ -155,19 +155,19 @@ void PlotMggShapeVsMR(bool useMC = false, string category = "highres") {
 
   string categoryCutString = "";
   if (category == "highpt") categoryCutString = " && ptgg >= 110 ";
-  else if (category == "highres") categoryCutString = " && ptgg < 110 && pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 ";
-  else if (category == "lowres") categoryCutString = " && ptgg < 110 && !(pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015) ";
+  else if (category == "highres") categoryCutString = " abs(mbb-125)>=25 && abs(mbb-91.2)>=25 && ptgg < 110 && pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015 ";
+  else if (category == "lowres") categoryCutString = " abs(mbb-125)>=25 && abs(mbb-91.2)>=25 && ptgg < 110 && !(pho1_sigEoE < 0.015 && pho2_sigEoE < 0.015) ";
 
   string controlRegionCutString = "";
   if (useMC) controlRegionCutString = "";
   else controlRegionCutString = "&& (!pho1_pass_iso || !pho2_pass_iso) ";
 
 
-  tree->Draw("mgg>>MGG_MR150ToInf_Rsq0p00ToInf",("abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 150 && t1Rsq > 0.00 " + categoryCutString + controlRegionCutString).c_str(),"");
-  tree->Draw("mgg>>MGG_MR150To200_Rsq0p05ToInf",("abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 150 && MR < 200 && t1Rsq > 0.05 " + categoryCutString + controlRegionCutString).c_str(),"");
-  tree->Draw("mgg>>MGG_MR200To300_Rsq0p05ToInf",("abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 200 && MR < 300 && t1Rsq > 0.05 " + categoryCutString + controlRegionCutString).c_str(),"");
-  tree->Draw("mgg>>MGG_MR300To400_Rsq0p05ToInf",("abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 300 && MR < 400 && t1Rsq > 0.05 " + categoryCutString + controlRegionCutString).c_str(),"");
-  tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p05ToInf",("abs(mbb-125)>=25 && abs(mbb-91.2)>=25 &&  ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.05 " + categoryCutString + controlRegionCutString).c_str(),"");
+  tree->Draw("mgg>>MGG_MR150ToInf_Rsq0p00ToInf",("ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 150 && t1Rsq > 0.00 " + categoryCutString + controlRegionCutString).c_str(),"");
+  tree->Draw("mgg>>MGG_MR150To200_Rsq0p05ToInf",("ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 150 && MR < 200 && t1Rsq > 0.05 " + categoryCutString + controlRegionCutString).c_str(),"");
+  tree->Draw("mgg>>MGG_MR200To300_Rsq0p05ToInf",("ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 200 && MR < 300 && t1Rsq > 0.05 " + categoryCutString + controlRegionCutString).c_str(),"");
+  tree->Draw("mgg>>MGG_MR300To400_Rsq0p05ToInf",("ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 300 && MR < 400 && t1Rsq > 0.05 " + categoryCutString + controlRegionCutString).c_str(),"");
+  tree->Draw("mgg>>MGG_MR400ToInf_Rsq0p05ToInf",("ptgg > 20 && abs(pho1_eta) <1.44 && abs(pho2_eta)<1.44 && (pho1_pt>40||pho2_pt>40)&&pho1_pt>25 && pho2_pt>25 && pho1_pass_id && pho2_pass_id && mgg>100&&mgg<400 && MR > 400 && t1Rsq > 0.05 " + categoryCutString + controlRegionCutString).c_str(),"");
 
 
 
@@ -256,18 +256,25 @@ void PlotMggShapeVsMR(bool useMC = false, string category = "highres") {
 
 void MggShapeStudy() {
 
-  PlotMggShapeVsRsq(false, "highres");
-  PlotMggShapeVsRsq(false, "lowres");
-  PlotMggShapeVsRsq(false, "highpt");
-  PlotMggShapeVsMR(false, "highres");
-  PlotMggShapeVsMR(false, "lowres");
-  PlotMggShapeVsMR(false, "highpt");
+  // PlotMggShapeVsRsq(false, "highres");
+  // PlotMggShapeVsRsq(false, "lowres");
+  // PlotMggShapeVsRsq(false, "highpt");
+  // PlotMggShapeVsMR(false, "highres");
+  // PlotMggShapeVsMR(false, "lowres");
+  // PlotMggShapeVsMR(false, "highpt");
 
-  PlotMggShapeVsRsq(true, "highres");
-  PlotMggShapeVsRsq(true, "lowres");
-  PlotMggShapeVsRsq(true, "highpt");
-  PlotMggShapeVsMR(true, "highres");
-  PlotMggShapeVsMR(true, "lowres");
-  PlotMggShapeVsMR(true, "highpt");
+  // PlotMggShapeVsRsq(true, "highres");
+  // PlotMggShapeVsRsq(true, "lowres");
+  // PlotMggShapeVsRsq(true, "highpt");
+  // PlotMggShapeVsMR(true, "highres");
+  // PlotMggShapeVsMR(true, "lowres");
+  // PlotMggShapeVsMR(true, "highpt");
+
+  PlotMggShapeVsRsq(false, "inclusive");
+  PlotMggShapeVsMR(false, "inclusive");
+  PlotMggShapeVsRsq(true, "inclusive");
+  PlotMggShapeVsMR(true, "inclusive");
+
+
 
 }
